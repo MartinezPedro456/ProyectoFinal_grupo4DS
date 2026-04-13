@@ -5,7 +5,6 @@ import javax.swing.JOptionPane;
 
 public class StudentRegistrationSystem {
 
-    // Clase Estudiante con Nombre y Apellido separados
     static class Estudiante {
         private final String nombre;
         private final String apellido;
@@ -29,8 +28,6 @@ public class StudentRegistrationSystem {
 
     public static void main(String[] args) {
         ArrayList<Estudiante> listaEstudiantes = new ArrayList<>();
-
-        // Cargamos los 20 estudiantes iniciales
         cargarEstudiantesPredeterminados(listaEstudiantes);
 
         try (Scanner keyboard = new Scanner(System.in)) {
@@ -40,12 +37,14 @@ public class StudentRegistrationSystem {
 
             do {
                 try {
+
                     String menu = """
                             --- GESTIÓN ACADÉMICA GRUPO 4 ---
                             1. Agregar Estudiante Manualmente
                             2. Buscar Estudiante (Nombre y Apellido)
                             3. Mostrar Lista Completa
-                            4. Salir
+                            4. Eliminar Estudiante
+                            5. Salir
                             """;
 
                     String inputMenu = JOptionPane.showInputDialog(menu);
@@ -72,15 +71,12 @@ public class StudentRegistrationSystem {
                             if (busqueda != null && !busqueda.isEmpty()) {
                                 StringBuilder resultados = new StringBuilder("Resultados encontrados:\n");
                                 boolean hallado = false;
-
                                 for (Estudiante e : listaEstudiantes) {
-                                    // Busca coincidencias en nombre o apellido
                                     if (e.getNombreCompleto().toLowerCase().contains(busqueda.toLowerCase())) {
                                         resultados.append("- ").append(e.toString()).append("\n");
                                         hallado = true;
                                     }
                                 }
-
                                 if (hallado) {
                                     JOptionPane.showMessageDialog(null, resultados.toString());
                                 } else {
@@ -96,16 +92,34 @@ public class StudentRegistrationSystem {
                             }
                             JOptionPane.showMessageDialog(null, listaTotal.toString());
                         }
-                        case 4 -> JOptionPane.showMessageDialog(null, "Finalizando programa.");
+                        // 2. CAMBIO: Nueva lógica para eliminar
+                        case 4 -> {
+                            String nombreAEliminar = JOptionPane
+                                    .showInputDialog("Ingrese el NOMBRE COMPLETO exacto para eliminar:");
+                            if (nombreAEliminar != null && !nombreAEliminar.isEmpty()) {
+                                // removeIf busca en la lista y borra si el nombre coincide exactamente
+                                boolean exito = listaEstudiantes
+                                        .removeIf(est -> est.getNombreCompleto().equalsIgnoreCase(nombreAEliminar));
+
+                                if (exito) {
+                                    JOptionPane.showMessageDialog(null,
+                                            "Estudiante '" + nombreAEliminar + "' eliminado.");
+                                } else {
+                                    JOptionPane.showMessageDialog(null, "No se encontró a: " + nombreAEliminar);
+                                }
+                            }
+                        }
+                        case 5 -> JOptionPane.showMessageDialog(null, "Finalizando programa.");
+                        default -> JOptionPane.showMessageDialog(null, "Opción no válida.");
                     }
                 } catch (NumberFormatException e) {
                     JOptionPane.showMessageDialog(null, "Error: Use números para el menú.");
                 }
-            } while (opcion != 4);
+
+            } while (opcion != 5);
         }
     }
 
-    // Método para tener datos listos para probar
     private static void cargarEstudiantesPredeterminados(ArrayList<Estudiante> lista) {
         lista.add(new Estudiante("Pedro", "García", 20));
         lista.add(new Estudiante("Michelle", "Rodríguez", 19));
@@ -127,5 +141,7 @@ public class StudentRegistrationSystem {
         lista.add(new Estudiante("Claudia", "Ruiz", 20));
         lista.add(new Estudiante("Fernando", "Vargas", 21));
         lista.add(new Estudiante("Gabriela", "Castro", 19));
+        lista.add(new Estudiante("Mario", "Palacio", 18));
     }
+
 }
