@@ -1,4 +1,3 @@
-
 import java.util.ArrayList;
 import java.util.Scanner;
 import javax.swing.JOptionPane;
@@ -6,142 +5,156 @@ import javax.swing.JOptionPane;
 public class StudentRegistrationSystem {
 
     static class Estudiante {
-        private final String nombre;
-        private final String apellido;
-        private final int edad;
+        private String id;
+        private String nombre;
+        private String apellido;
+        // Atributos de notas por módulos
+        private double notaExamen;
+        private double notaTareas;
+        private double notaProyecto;
+        private double promedioFinal;
 
-        public Estudiante(String nombre, String apellido, int edad) {
+        public Estudiante(String id, String nombre, String apellido, double n1, double n2, double n3) {
+            this.id = id;
             this.nombre = nombre;
             this.apellido = apellido;
-            this.edad = edad;
+            this.notaExamen = n1;
+            this.notaTareas = n2;
+            this.notaProyecto = n3;
+
+            this.promedioFinal = (n1 * 0.40) + (n2 * 0.30) + (n3 * 0.30);
         }
 
         public String getNombreCompleto() {
             return nombre + " " + apellido;
         }
 
+        public String getEstado() {
+            return (promedioFinal >= 3.0) ? "APROBADO" : "REPROBADO";
+        }
+
         @Override
         public String toString() {
-            return "Estudiante: " + nombre + " " + apellido + " | Edad: " + edad;
+            return String.format("ID: %-4s | %-22s | Prom: %.1f | [%s]",
+                    id, nombre + " " + apellido, promedioFinal, getEstado());
+        }
+
+        public String getDetalleNotas() {
+            return String.format("Detalle de %s:\nExamen: %.1f\nTareas: %.1f\nProyecto: %.1f\nFINAL: %.1f",
+                    getNombreCompleto(), notaExamen, notaTareas, notaProyecto, promedioFinal);
         }
     }
 
     public static void main(String[] args) {
         ArrayList<Estudiante> listaEstudiantes = new ArrayList<>();
-        cargarEstudiantesPredeterminados(listaEstudiantes);
+        Scanner input = new Scanner(System.in);
+        int opcion = 0;
 
-        try (Scanner keyboard = new Scanner(System.in)) {
-            int opcion = 0;
+        cargar30Estudiantes(listaEstudiantes);
 
-            JOptionPane.showMessageDialog(null, "Sistema de Registro - 20 Estudiantes Cargados");
+        JOptionPane.showMessageDialog(null, "SISTEMA DE REGISTRO DE ESTUDIANTES\n" +
+                "Registros actuales: " + listaEstudiantes.size());
 
-            do {
-                try {
+        do {
+            try {
+                String menu = """
+                             MENÚ DE REGISTROS DE ESTUDIANTES
+                        1. Registrar Estudiante (Nuevo)
+                        2. Buscar y Ver Detalle de Notas
+                        3. Listado General (30+ Registros)
+                        4. Eliminar por Nombre
+                        5. Analísis Grupal
+                        6. Salir
+                        """;
 
-                    String menu = """
-                            --- GESTIÓN ACADÉMICA GRUPO 4 ---
-                            1. Agregar Estudiante Manualmente
-                            2. Buscar Estudiante (Nombre y Apellido)
-                            3. Mostrar Lista Completa
-                            4. Eliminar Estudiante
-                            5. Salir
-                            """;
+                String seleccion = JOptionPane.showInputDialog(menu);
+                if (seleccion == null)
+                    break;
+                opcion = Integer.parseInt(seleccion);
 
-                    String inputMenu = JOptionPane.showInputDialog(menu);
-                    if (inputMenu == null)
-                        break;
-                    opcion = Integer.parseInt(inputMenu);
-
-                    switch (opcion) {
-                        case 1 -> {
-                            System.out.println("\n--- NUEVO REGISTRO ---");
-                            System.out.print("Nombre: ");
-                            String n = keyboard.nextLine();
-                            System.out.print("Apellido: ");
-                            String a = keyboard.nextLine();
-                            System.out.print("Edad: ");
-                            int ed = keyboard.nextInt();
-                            keyboard.nextLine();
-
-                            listaEstudiantes.add(new Estudiante(n, a, ed));
-                            JOptionPane.showMessageDialog(null, "Registrado: " + n + " " + a);
-                        }
-                        case 2 -> {
-                            String busqueda = JOptionPane.showInputDialog("Ingrese el NOMBRE o APELLIDO a buscar:");
-                            if (busqueda != null && !busqueda.isEmpty()) {
-                                StringBuilder resultados = new StringBuilder("Resultados encontrados:\n");
-                                boolean hallado = false;
-                                for (Estudiante e : listaEstudiantes) {
-                                    if (e.getNombreCompleto().toLowerCase().contains(busqueda.toLowerCase())) {
-                                        resultados.append("- ").append(e.toString()).append("\n");
-                                        hallado = true;
-                                    }
-                                }
-                                if (hallado) {
-                                    JOptionPane.showMessageDialog(null, resultados.toString());
-                                } else {
-                                    JOptionPane.showMessageDialog(null, "No se encontraron coincidencias.");
-                                }
-                            }
-                        }
-                        case 3 -> {
-                            StringBuilder listaTotal = new StringBuilder(
-                                    "LISTADO GENERAL (" + listaEstudiantes.size() + "):\n");
-                            for (Estudiante e : listaEstudiantes) {
-                                listaTotal.append(e.toString()).append("\n");
-                            }
-                            JOptionPane.showMessageDialog(null, listaTotal.toString());
-                        }
-                        // 2. CAMBIO: Nueva lógica para eliminar
-                        case 4 -> {
-                            String nombreAEliminar = JOptionPane
-                                    .showInputDialog("Ingrese el NOMBRE COMPLETO exacto para eliminar:");
-                            if (nombreAEliminar != null && !nombreAEliminar.isEmpty()) {
-                                // removeIf busca en la lista y borra si el nombre coincide exactamente
-                                boolean exito = listaEstudiantes
-                                        .removeIf(est -> est.getNombreCompleto().equalsIgnoreCase(nombreAEliminar));
-
-                                if (exito) {
-                                    JOptionPane.showMessageDialog(null,
-                                            "Estudiante '" + nombreAEliminar + "' eliminado.");
-                                } else {
-                                    JOptionPane.showMessageDialog(null, "No se encontró a: " + nombreAEliminar);
-                                }
-                            }
-                        }
-                        case 5 -> JOptionPane.showMessageDialog(null, "Finalizando programa.");
-                        default -> JOptionPane.showMessageDialog(null, "Opción no válida.");
+                switch (opcion) {
+                    case 1 -> {
+                        System.out.println("\n NUEVO REGISTRO ");
+                        System.out.print("ID: ");
+                        String id = input.nextLine();
+                        System.out.print("Nombre: ");
+                        String n = input.nextLine();
+                        System.out.print("Apellido: ");
+                        String a = input.nextLine();
+                        System.out.print("Nota Examen (0-5): ");
+                        double n1 = input.nextDouble();
+                        System.out.print("Nota Tareas (0-5): ");
+                        double n2 = input.nextDouble();
+                        System.out.print("Nota Proyecto (0-5): ");
+                        double n3 = input.nextDouble();
+                        input.nextLine();
+                        listaEstudiantes.add(new Estudiante(id, n, a, n1, n2, n3));
                     }
-                } catch (NumberFormatException e) {
-                    JOptionPane.showMessageDialog(null, "Error: Use números para el menú.");
-                }
+                    case 2 -> {
+                        String busqueda = JOptionPane.showInputDialog("Nombre o Apellido:");
+                        for (Estudiante e : listaEstudiantes) {
+                            if (e.getNombreCompleto().toLowerCase().contains(busqueda.toLowerCase())) {
+                                JOptionPane.showMessageDialog(null, e.getDetalleNotas());
+                            }
+                        }
+                    }
+                    case 3 -> {
+                        StringBuilder lista = new StringBuilder("LISTADO COMPLETO:\n");
+                        for (int i = 0; i < listaEstudiantes.size(); i++) {
+                            lista.append(listaEstudiantes.get(i)).append("\n");
 
-            } while (opcion != 5);
+                            if ((i + 1) % 15 == 0) {
+                                JOptionPane.showMessageDialog(null, lista);
+                                lista = new StringBuilder("LISTADO CONTINUACIÓN:\n");
+                            }
+                        }
+                    }
+                    case 4 -> {
+                        String idBorrar = JOptionPane.showInputDialog("ID a eliminar:");
+                        listaEstudiantes.removeIf(e -> e.id.equals(idBorrar));
+                    }
+                    case 5 -> {
+                        double sumaTotal = 0;
+                        int aprob = 0;
+                        for (Estudiante e : listaEstudiantes) {
+                            sumaTotal += e.promedioFinal;
+                            if (e.promedioFinal >= 3.0)
+                                aprob++;
+                        }
+                        String analisis = String.format("""
+                                  ANALÍSIS DE RENDIMIENTO
+                                Estudiantes Evaluados: %d
+                                Promedio del Curso: %.2f
+                                Tasa de Aprobación: %.1f%%
+                                """, listaEstudiantes.size(), (sumaTotal / listaEstudiantes.size()),
+                                ((double) aprob / listaEstudiantes.size() * 100));
+                        JOptionPane.showMessageDialog(null, analisis);
+                    }
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Entrada no válida.");
+                input.nextLine();
+            }
+        } while (opcion != 6);
+        input.close();
+    }
+
+    private static void cargar30Estudiantes(ArrayList<Estudiante> lista) {
+        String[] nombres = { "Pedro", "Michelle", "Jose", "Malenis", "Luis", "Ana", "Carlos", "Sofia", "Diego", "Elena",
+                "Jorge", "Lucia", "Roberto", "Marta", "Andres", "Paola", "Ricardo", "Claudia", "Fernando", "Gabriela",
+                "Mario", "Carmen", "Raul", "Isabel", "Hugo", "Victoria", "Gabriel", "Rosa", "Tomas", "Julia" };
+        String[] apellidos = { "Martinez", "Rodriguez", "Villareal", "Ortega", "Garcia", "Lopez", "Sanchez", "Ramirez",
+                "Torres", "Flores", "Morales", "Castillo", "Ortiz", "Gutierrez", "Reyes", "Jimenez", "Alvarez", "Ruiz",
+                "Vargas", "Castro", "Palacio", "Gomez", "Perez", "Diaz", "Herrera", "Castro", "Rios", "Mendoza", "Sosa",
+                "Vera" };
+
+        for (int i = 0; i < 30; i++) {
+            String id = "E" + (i + 1);
+
+            double n1 = 1.0 + (Math.random() * 4.0);
+            double n2 = 1.0 + (Math.random() * 4.0);
+            double n3 = 1.0 + (Math.random() * 4.0);
+            lista.add(new Estudiante(id, nombres[i], apellidos[i], n1, n2, n3));
         }
     }
-
-    private static void cargarEstudiantesPredeterminados(ArrayList<Estudiante> lista) {
-        lista.add(new Estudiante("Pedro", "García", 20));
-        lista.add(new Estudiante("Michelle", "Rodríguez", 19));
-        lista.add(new Estudiante("Juan", "Pérez", 21));
-        lista.add(new Estudiante("María", "López", 22));
-        lista.add(new Estudiante("Luis", "Martínez", 20));
-        lista.add(new Estudiante("Ana", "Hernández", 18));
-        lista.add(new Estudiante("Carlos", "Sánchez", 23));
-        lista.add(new Estudiante("Sofía", "Ramírez", 19));
-        lista.add(new Estudiante("Diego", "Torres", 21));
-        lista.add(new Estudiante("Elena", "Flores", 20));
-        lista.add(new Estudiante("Jorge", "Morales", 22));
-        lista.add(new Estudiante("Lucía", "Castillo", 18));
-        lista.add(new Estudiante("Roberto", "Ortiz", 24));
-        lista.add(new Estudiante("Marta", "Gutiérrez", 21));
-        lista.add(new Estudiante("Andrés", "Reyes", 20));
-        lista.add(new Estudiante("Paola", "Jiménez", 19));
-        lista.add(new Estudiante("Ricardo", "Álvarez", 22));
-        lista.add(new Estudiante("Claudia", "Ruiz", 20));
-        lista.add(new Estudiante("Fernando", "Vargas", 21));
-        lista.add(new Estudiante("Gabriela", "Castro", 19));
-        lista.add(new Estudiante("Mario", "Palacio", 18));
-    }
-
 }

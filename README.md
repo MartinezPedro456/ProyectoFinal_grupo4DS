@@ -1,43 +1,39 @@
-# 🎓 Sistema de Gestión de Estudiantes - Grupo 4
+# Sistema de Gestión de Estudiantes.
 
-## 1. Introducción
-Este programa es un sistema básico que hicimos en Java para controlar una lista de estudiantes. La idea es que puedas tener a los alumnos registrados, buscarlos por nombre o apellido, ver la lista completa y con la nueva actualización, también borrar a alguien si ya no está en el grupo. 
+## 1. EduManager Pro: Sistema Integral de Gestión Académica.
+EduManager Pro es una herramienta que creamos para que las escuelas o profesores puedan organizar sus listas de alumnos de forma rápida, sin tener que usar papeles o archivos de Excel complicados que luego se pierden.
+Es una solución ligera y robusta diseñada de manera eficiente, segura y escalable. 
 
-## 2. Características Principales
- * **viene con datos:** Al abrirlo, el sistema ya trae 21 estudiantes de prueba para no empezar de cero.
+## 2. Características.
+ * **Cálculo de notas automático:** Ya no tienes que sumar a mano. El sistema promedia exámenes, tareas y proyectos solo con meter los datos.
 
-* **Registro manual:** Puedes meter nuevos alumnos nombre, apellido y edad.
+* **Saber quién pasa y quién no:** El programa te marca enseguida quién está Aprobado o Reprobado según sus notas.
 
-* **Buscador inteligente:** Si pones una parte del nombre o el apellido, el programa te encuentra las coincidencias.
+* **Buscador rápido:** Con solo escribir una parte del nombre, el sistema te muestra toda la información de ese estudiante.
 
-* **Borrado de registros:** Si te equivocas o alguien se sale, puedes eliminarlo escribiendo su nombre completo.
+* **Control total:** Puedes agregar alumnos nuevos, ver la lista de todos los que tienes y borrar a los que ya no estén en el grupo.
 
-* **Alertas visuales:** Usa ventanitas (JOptionPane) para que sea más fácil de usar que solo texto.
+* **Resumen de grupo:** Te da una idea de cómo va el salón: el promedio general y cuántos van pasando en total.
 
-## 3. Arquitectura del Proyecto
-Usamos Java puro con un enfoque de objetos.
+## 3.Cómo está Construido.
+Usamos tecnología Java, que es muy confiable y rápida. Lo hicimos pensando en que el programa sea ligero (no pone lenta la computadora) y que sea fácil de usar para cualquier persona, aunque no sepa de sistemas.
+ 
+* **Seguridad:** Los datos de los alumnos están protegidos dentro del código para que no se alteren por accidente.
 
-* **ArrayList:** Es lo que usamos para guardar a los estudiantes porque nos deja agregar y quitar elementos sin complicaciones.
+* **Cero errores:** Si alguien se equivoca y escribe una letra donde va un número, el programa te avisa en lugar de cerrarse.
 
-* **JOptionPane:** Para que el menú y los mensajes parezcan de una aplicación real con ventanas.
+* Usamos una lógica que permite que el programa crezca; puedes meter muchísimos alumnos y no se pone lento.
 
-* **Scanner:** Para que cuando toque escribir datos nuevos (en la opción 1), se haga directo.
 
-* **Lógica de eliminación:** Usamos una función llamada removeIf, que es súper útil porque busca y borra al mismo tiempo sin que el programa se trabe.
+## 4. ¿En qué te Ayuda Usarlo?
+* **Ahorras tiempo:** Lo que antes hacías a mano o sumando en calculadora, el programa lo hace en un segundo.
 
-## 4. Tecnologías Utilizadas
-* **Java.**
-* **Visual Studio Code.**
-* **ArrayList.**
-* **Scanner.**
-* **JOptionPane.**
+* **Cero errores:** Al automatizar los promedios, asegura de que las notas finales sean exactas.
 
-## 5. Casos de uso
-* **Para pasar asistencia rápido en el salón.**
+* **Orden total:** Tienes todo en un solo lugar, bien presentado y fácil de leer.
 
-* **Para organizar los grupos de laboratorio de la técnica.**
-
-* **Como base para cualquier proyecto que necesite guardar datos de personas.**
+## 5. ¿Qué necesitas para usarlo?
+Solo tener instalado Java. Funciona en cualquier computadora (Windows, Mac o Linux) y no necesita una instalación complicada. Solo lo abres y listo. 
 
 ## 6. Instalación
 * Instalar **Java.** 
@@ -54,18 +50,22 @@ Usamos Java puro con un enfoque de objetos.
 
 
 ## 8. Futuras Mejoras
-* **Guardar en archivo:** Que cuando cierres el programa los datos no se borren, sino que se guarden en un txt o una base de datos de verdad como MariaDB.
+Estamos trabajando para que el programa sea todavía mejor:
+
+* **Guardar para siempre:** Que los datos se queden guardados en un archivo o base de datos aunque apagues la computadora.
+
+* **Diseño visual:** Crear una versión con botones y colores más modernos.
+
+* **Editar datos:** Poder cambiar notas o nombres de alumnos que ya están registrados sin tener que borrarlos.
 
 * **Interfaz completa:** Hacer que todo sea con ventanas y botones, sin usar la terminal para nada.
 
 * **Editar:** Agregar una opción para cambiarle la edad o el nombre a alguien que ya esté registrado.
 
-## 9. Conclusión
-Este trabajo nos ayudó a entender cómo manejar listas de objetos en Java. Es un sistema sencillo pero que ya tiene todas las funciones básicas (Crear, Leer, Buscar y Eliminar), lo que nos sirve de mucha práctica para proyectos más grandes de programación.
-Este proyecto representa la culminación del aprendizaje en lógica de programación y estructuras de datos. Es una herramienta totalmente accesible.
+## 9. Conclusión.
+Este programa nació para resolver el problema de desorden que a veces hay en los salones de clases. Es una herramienta que funciona bien, es rápida y sobre todo, ayuda a los profesores a enfocarse en enseñar en lugar de perder tiempo haciendo cuentas y listas a mano.
 
 ## 10. Autor
 * **Malenis Ortega**
 * **Jose Villareal**
 * **Pedro Martinez**
-* *Estudiantes de Desarrollo de Software - Grupo_4.*
