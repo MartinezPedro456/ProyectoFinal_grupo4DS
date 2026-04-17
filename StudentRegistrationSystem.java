@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Scanner;
+
 import javax.swing.JOptionPane;
 
 public class StudentRegistrationSystem {
@@ -8,7 +9,6 @@ public class StudentRegistrationSystem {
         private String id;
         private String nombre;
         private String apellido;
-        // Atributos de notas por módulos
         private double notaExamen;
         private double notaTareas;
         private double notaProyecto;
